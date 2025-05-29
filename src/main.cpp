@@ -1,4 +1,6 @@
 #include <Arduino.h>
+// #include <Wire.h>
+
 #define ESP32
 
 // ====================================
@@ -23,6 +25,7 @@ const byte sysFlag_WiFiConnected = 7;       // sysFlags bit 7:  0 = inactive	1 =
 #include <fastled.h>  //Onboard RGB LED Driver
 #include <comm.h>  //Communication Library
 #include <flash.h> // Flash Memory Library
+#include <GPIO.h>  // GPIO Library
 
 // ============================================================================
 // Function Declarations
@@ -36,6 +39,9 @@ void setup() {
   Serial.begin(115200);
   delay(1000); // Allow time for Serial Monitor to open
 
+  // Wire.begin(SDA, SCL); // Initialize I2C communication
+
+
   // Initialize system flags
   sysFlags = 0x00;
 
@@ -45,7 +51,11 @@ void setup() {
   // Set up communication protocols
   setupComms();
 
-  setupFlash(); // Initialize Flash Memory
+  // Initialize Flash Memory
+  setupFlash();
+
+  // Initialize GPIO pins
+  setupGPIO();
 
   // Print initial status
   Serial.println("Setup Complete");
@@ -56,6 +66,8 @@ void setup() {
 // ============================================================================
 
 void loop() {
+
+  updateGPIO(); // Update GPIO state
 
 }
 

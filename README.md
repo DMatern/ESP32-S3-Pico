@@ -23,8 +23,41 @@ Castellated module allows soldering directly to carrier boards
 Supports multiple low-power operating states, adjustable balance between communication distance, data rate and power consumption to meet the power requirements of various application scenarios
 Supports Raspberry Pi Pico expansion board ecology, suitable for artificial intelligence IoT application development
 
+SPI0 Pin Assignments for FLASH:
+SPICS0 (Chip Select):       GPIO29
+SPID (Master Out Slave In): GPIO32
+SPIQ (Master In Slave Out): GPIO31
+SPICLK (Clock):             GPIO30
+SPIWP (Write Protect):      GPIO28
+SPIHD (Hold):               GPIO27
+
+RGB Neo Pixel:
+Data PIN                    GPIO21
+
+I2C Pins (x2 Buses can be asigned to any GPIO Pins)
+I2CEXT0_SCL
+I2CEXT0_SDA
+I2CEXT1_SCL
+I2CEXT1_SDA
+
+*Using GPIO8 for SDA and GPIO9 for SCL
+
+Pins to Avoid:
+GPIO0   I2CSAR RTC, have to be GND at reset
+GPIO1   I2CSAR RTC
+GPIO2   I2CSAR RTC
+GPIO3   I2CSAR RTC, have to be GND at reset
+
+GPIO19  USB D-
+GPIO20  USB D+
+
+ADC Pins:
+GPIO01 - GPOI20
+
+![ESP32-S3 Pins](<Esp32-s3_datasheet_en Page 071.jpg>)
+
 ![900px-ESP32-S3-Pico-details-inter-1](https://github.com/user-attachments/assets/15d441bf-06bd-4bac-abaf-f670f46ad978)
 
-![Schematic](https://files.waveshare.com/upload/a/a7/ESP32-S3-Pico-SCH.pdf)
+Skematic: (https://files.waveshare.com/upload/a/a7/ESP32-S3-Pico-SCH.pdf)
 
-![Board Website](https://www.waveshare.com/product/arduino/boards-kits/esp32/esp32-s3-pico.htm?___SID=U)
+Board Website: (https://www.waveshare.com/product/arduino/boards-kits/esp32/esp32-s3-pico.htm?___SID=U)

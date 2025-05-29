@@ -4,6 +4,7 @@
 // #include <WiFiUdp.h>
 // #include <TelnetSpy.h>
 #include <WiFi.h>
+#include <Wire.h>
 
 // ====================================
 // WiFI Settings
@@ -96,22 +97,29 @@ void setupWiFi() {
 }
 
 void setupComms() {
-    // Set up UDP
-    // displayUDP.begin(remotePort);
-    // Serial.print("UDP Server Started, port: ");
-    // Serial.println(String(remotePort));
 
-    // // Set up Telnet
-    // telnet.setWelcomeMsg(F("|=== Welcome to Weather Staion Telnet ===| \r\n > enter ? for list of commands \r\n\n"));
-    // telnet.setCallbackOnConnect(telnetConnected);
-    // telnet.setCallbackOnDisconnect(telnetDisconnected);
-    // telnet.setFilter(char(1), F("\r\nNVT command: AO\r\n"), disconnectClientWrapper);
-    // telnet.setDebugOutput(false); // Set to true to enable debug output
-    // // telnet.setBufferSize(0); //Set it to 0 to disable buffering
-    // telnet.setStoreOffline(false); // Store data if Telnet is not connected
+  Wire.begin(SDA, SCL);
 
-    // telnet.begin(9600);
-    // Serial.println(F("Telnet Server Started"));
+  // addd SPI bus for external devices? not internal SPI bus with flash
+
+
+  // Initialize I2C communication
+                        // Set up UDP
+                        // displayUDP.begin(remotePort);
+                        // Serial.print("UDP Server Started, port: ");
+                        // Serial.println(String(remotePort));
+
+  // // Set up Telnet
+  // telnet.setWelcomeMsg(F("|=== Welcome to Weather Staion Telnet ===| \r\n > enter ? for list of commands \r\n\n"));
+  // telnet.setCallbackOnConnect(telnetConnected);
+  // telnet.setCallbackOnDisconnect(telnetDisconnected);
+  // telnet.setFilter(char(1), F("\r\nNVT command: AO\r\n"), disconnectClientWrapper);
+  // telnet.setDebugOutput(false); // Set to true to enable debug output
+  // // telnet.setBufferSize(0); //Set it to 0 to disable buffering
+  // telnet.setStoreOffline(false); // Store data if Telnet is not connected
+
+  // telnet.begin(9600);
+  // Serial.println(F("Telnet Server Started"));
 }
 
 // ============================================================================
