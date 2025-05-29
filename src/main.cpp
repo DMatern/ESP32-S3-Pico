@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#define ESP32
 
 // ====================================
 // Flags
@@ -11,7 +12,7 @@ uint8_t sysFlags = 0x00;
 // const byte sysFlag_Tare = 4;     // sysFlags bit 4:  0 = inactive	1 = active
 // const byte sysFlag_Select = 5;   // sysFlags bit 5:  0 = inactive	1 = active
 // const byte sysFlag_UP = 6;       // sysFlags bit 6:  0 = inactive	1 = active
-// const byte sysFlag_DN = 7;       // sysFlags bit 7:  0 = inactive	1 = active
+const byte sysFlag_WiFiConnected = 7;       // sysFlags bit 7:  0 = inactive	1 = active
 
 // ====================================
 // Global Variables
@@ -21,6 +22,7 @@ uint8_t sysFlags = 0x00;
 
 #include <fastled.h>  //Onboard RGB LED Driver
 #include <comm.h>  //Communication Library
+#include <flash.h> // Flash Memory Library
 
 // ============================================================================
 // Function Declarations
@@ -31,6 +33,22 @@ uint8_t sysFlags = 0x00;
 
 void setup() {
 
+  Serial.begin(115200);
+  delay(1000); // Allow time for Serial Monitor to open
+
+  // Initialize system flags
+  sysFlags = 0x00;
+
+  // Set up WiFi connection
+  setupWiFi();
+
+  // Set up communication protocols
+  setupComms();
+
+  setupFlash(); // Initialize Flash Memory
+
+  // Print initial status
+  Serial.println("Setup Complete");
 }
 
 // ============================================================================

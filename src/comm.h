@@ -3,7 +3,7 @@
 
 // #include <WiFiUdp.h>
 // #include <TelnetSpy.h>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 
 // ====================================
 // WiFI Settings
@@ -62,37 +62,37 @@ int WiFiretryMax = 20;
 
 void setupWiFi() {
 
-  // WiFi.mode(WIFI_STA);                      // Set WiFi to station mode
-  // WiFi.setAutoReconnect(true);
-  // WiFi.persistent(true);
-  // WiFi.begin(ssidHome, passHome);           // Connect to WiFi network
+  WiFi.mode(WIFI_STA);                      // Set WiFi to station mode
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
+  WiFi.begin(ssidHome, passHome);           // Connect to WiFi network
 
-  // Serial.println("WiFi begin");
+  Serial.println("WiFi begin");
 
-  // while (WiFi.status() != WL_CONNECTED) {
-  //   delay(500);
-  //   WiFiRetryCount++;
-  //   Serial.print(".");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    WiFiRetryCount++;
+    Serial.print(".");
 
-  //   if(WiFiRetryCount > WiFiretryMax) {
-  //     WiFi.mode(WIFI_OFF);
-	//   bitClear(sysFlags, sysFlag_WiFiConnected);
-	//   WiFiRetryCount = 0;
-	//   Serial.println();
-	//   Serial.println("WiFi Connection Failed");
-  //     return; // exit function
-  //   }
-  // }
+    if(WiFiRetryCount > WiFiretryMax) {
+      WiFi.mode(WIFI_OFF);
+	  bitClear(sysFlags, sysFlag_WiFiConnected);
+	  WiFiRetryCount = 0;
+	  Serial.println();
+	  Serial.println("WiFi Connection Failed");
+      return; // exit function
+    }
+  }
 
-  // bitSet(sysFlags, sysFlag_WiFiConnected);
+  bitSet(sysFlags, sysFlag_WiFiConnected);
 
-  // Serial.println("WiFi connected");
-  // Serial.println("SSID : " + WiFi.SSID());
-  // Serial.println("IP   : " + WiFi.localIP().toString());
-  // Serial.println("MAC  : " + WiFi.macAddress());
+  Serial.println("WiFi connected");
+  Serial.println("SSID : " + WiFi.SSID());
+  Serial.println("IP   : " + WiFi.localIP().toString());
+  Serial.println("MAC  : " + WiFi.macAddress());
 
-  // Serial.println("Setup Complete: WiFi");
-  // delay(100);
+  Serial.println("Setup Complete: WiFi");
+  delay(100);
 }
 
 void setupComms() {
@@ -119,20 +119,20 @@ void setupComms() {
 // Update
 // ============================================================================
 
-// void updateComms() {
-// 	static unsigned long lastCheckTime = 0;
-//     unsigned long currentTime = millis();
+void updateComms() {
+	static unsigned long lastCheckTime = 0;
+    unsigned long currentTime = millis();
 
-//     telnet.handle(); // Handle Telnet connection
+    // telnet.handle(); // Handle Telnet connection
 
-// 	// Check WiFi connection every 1 minute (60000 milliseconds)
-//     if (currentTime - lastCheckTime >= 60000) {
-//         lastCheckTime = currentTime;
-//         if (WiFi.status() != WL_CONNECTED) {
-//             setupWiFi();
-//         }
-//     }
-// }
+	// Check WiFi connection every 1 minute (60000 milliseconds)
+    if (currentTime - lastCheckTime >= 60000) {
+        lastCheckTime = currentTime;
+        if (WiFi.status() != WL_CONNECTED) {
+            setupWiFi();
+        }
+    }
+}
 
 // ====================================
 // Comms
