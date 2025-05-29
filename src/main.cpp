@@ -20,6 +20,7 @@ uint8_t sysFlags = 0x00;
 // Include Files
 
 #include <fastled.h>  //Onboard RGB LED Driver
+#include <comm.h>  //Communication Library
 
 // ============================================================================
 // Function Declarations
