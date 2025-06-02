@@ -14,7 +14,7 @@ Base configuration to initialize and setup all hardware and required llib's and 
 > General
 
 NeoPixel      = FastLED
-Flash Memory  = w25qxx  / libdriver
+Flash Memory  = SPIMemory / Marzogh
 WiFi          = WiFi.h   (arduino lib)
 
 > PicoCalc Specific
@@ -33,8 +33,9 @@ Onboard CH343 and CH334 chips can meet the needs of USB and UART development via
 Onboard DC-DC chip MP28164, high efficiency DC-DC buck-boost chip with load current up to 2A
 27 × multi-function GPIO pins
 Rich peripheral interfaces, including full-speed USB OTG, SPI, I2C, UART, ADC, PWM and DVP (8-bit ~ 16-bit camera interface), LCD interfaces (8-bit ~ 16-bit parallel RGB, I8080, MOTO6800), etc. to achieve various functions flexibly
+4-inch IPS screen with a 320x320 resolution SPI Interface
 
-> SPI0 Pin Assignments for FLASH:
+> SPI0 Pin Assignments for FLASH W25Q128JVSIQ:
 
 SPICS0 (Chip Select):       GPIO29
 SPID (Master Out Slave In): GPIO32
@@ -69,6 +70,25 @@ GPIO20  USB D+
 > ADC Pins:
 
 GPIO01 - GPOI20
+
+# PicoCalc IO
+
+SPI0_CS  (Chip Select)      GPIO5
+SPI0_CLK  (Clock)           GPIO4
+SPI0_
+
+> SPI0 Pin Assignments for FLASH W25Q128JVSIQ:
+
+SPI0_CS (Chip Select):      GPIO 20
+SPI0_CLK (Clock):           GPIO 21
+SPID (Master Out Slave In): GPIO32
+SPIQ (Master In Slave Out): GPIO31
+SPICLK (Clock):             GPIO30
+SPIWP (Write Protect):      GPIO28
+SPIHD (Hold):               GPIO27
+
+
+
 
 ![ESP32-S3 Pins](<Esp32-s3_datasheet_en Page 071.jpg>)
 
