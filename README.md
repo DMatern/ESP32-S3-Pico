@@ -4,10 +4,9 @@ Base configuration to initialize and setup all hardware and required llib's and 
 # To Do List:
 
 - Add and Test Libraries for the following hardware:
--- 16MB Flash Memory  (W25Q128JVSIQ)
--- WiFi               (ESP32)
--- Bluetooth          (ESP32)
--- NTP Time           (LIB)
+
+Onboard Flash
+Onboard USB Host / Device
 
 # Library Infoamtion
 
@@ -15,13 +14,14 @@ Base configuration to initialize and setup all hardware and required llib's and 
 
 NeoPixel      = FastLED
 Flash Memory  = SPIMemory / Marzogh
-WiFi          = WiFi.h   (arduino lib)
+WiFi          = WiFi.h   (arduino core)
 
 > PicoCalc Specific
 
 Display       = TFT_eSPI / Bodmer
 Touchscreen   = XPT2046 / PaulStoffergen
-Keyvoard      = 
+Keyvoard      = arduino_picocalc_kbd
+TF Card       = SD.h    (arduino core)
 
 # Board Information:
 
@@ -37,18 +37,28 @@ Rich peripheral interfaces, including full-speed USB OTG, SPI, I2C, UART, ADC, P
 
 # Board IO:
 
-> SPI0 Pin Assignments for FLASH W25Q128JVSIQ:
+> USB UART Serial 0 (Host):
 
-SPICS0 (Chip Select):       GPIO29
-SPID (Master Out Slave In): GPIO32
-SPIQ (Master In Slave Out): GPIO31
-SPICLK (Clock):             GPIO30
-SPIWP (Write Protect):      GPIO28
-SPIHD (Hold):               GPIO27
+TX  (U0TXD):                  GPIO 43
+RX: (U0RXD):                  GPIO 44
 
-> RGB Neo Pixel:
+> USB UART Serial (Device):
 
-Data PIN                    GPIO21
+TX: (U1)                      GPIO 19
+RX: (U1)                      GPIO 20
+
+> Onboard FLASH SPI0 (W25Q128JVSIQ):
+
+SPI_CS (Chip Select):         GPIO29
+SPI_D (Master Out Slave In):  GPIO32
+SPI_Q (Master In Slave Out):  GPIO31
+SPI_CLK (Clock):              GPIO30
+SPI_WP (Write Protect):       GPIO28
+SPI_HD (Hold):                GPIO27
+
+> RGB Neo Pixel Onboard:
+
+Data PIN                      GPIO21
 
 > I2C Pins (x2 Buses can be asigned to any GPIO Pins)
 
@@ -56,8 +66,6 @@ I2CEXT0_SCL
 I2CEXT0_SDA
 I2CEXT1_SCL
 I2CEXT1_SDA
-
-*Using GPIO8 for SDA and GPIO9 for SCL
 
 > Pins to Avoid:
 
@@ -75,48 +83,53 @@ GPIO01 - GPOI20
 
 # PicoCalc IO for ESP32-S3-Pico
 
-> UART Serial 0
+> UART Serial
 
-TX: GPIO 2
-RX: GPIO 3
+TX:                         GPIO 11
+RX:                         GPIO 12
 
-> FLASH ESP-PSRAM64H:
+> UART Serial
 
-RAM_CS (Chip Select):       GPIO 40
-RAM_CLK (Clock):            GPIO 41
-RAM_TX (MOSI):              GPIO 4
-RAM_RX (MISO):              GPIO 5
-SPI0_IO2 ():                GPIO 43
-SPIQ_IO3 ():                GPIO 44
+TX:                         GPIO 33
+RX:                         GPIO 34
 
-> TF Card Slot:
+> FLASH SPI (ESP-PSRAM64H):
 
-SPI0_CS (Chip Select):      GPIO 37
-SPI0_CLK (Clock):           GPIO 38
-SPI0_TX (MOSI):             GPIO 39
-SPI0_RX (MISO):             GPIO 36
+RAM_CS (Chip Select):       GPIO 4
+RAM_CLK (Clock):            GPIO 5
+RAM_TX (MOSI):              GPIO 13
+RAM_RX (MISO):              GPIO 14
+RAM_IO2 ():                 GPIO 15
+RAM_IO3 ():                 GPIO 16
 
-SD_DET (Card Detect):       GPIO 42
+> TF Card Slot SPI:
 
-> TFT Display:
+SPI_CS (Chip Select):       GPIO 41
+SPI_CLK (Clock):            GPIO 1
+SPI_TX (MOSI):              GPIO 2
+SPI_RX (MISO):              GPIO 42
 
-SPI1_CS:                    GPIO 13
-SPI1_CLK:                   GPIO 10
-SPI1_TX (MOSI):             GPIO 11
-SPI1_RX (MISO):             GPIO 12
+SD_DET (Card Detect):       GPIO 6
 
-LCD_DC () :                 GPIO 34
-LCD_RST (Reset):            GPIO 35
+> TFT Display ():
+
+SPI1_CS:                    GPIO 38
+SPI1_CLK:                   GPIO 35
+SPI1_TX (MOSI):             GPIO 36
+SPI1_RX (MISO):             GPIO 37
+
+LCD_DC () :                 GPIO 39
+LCD_RST (Reset):            GPIO 40
 
 > Audio Out (NC7WZ16):
 
-PWM_L:                      GPIO 6 
-PWM_R:                      GPIO 7
+PWM_L:                      GPIO 7 
+PWM_R:                      GPIO 8
 
 > Keyboard I2C (STM32):
 
-I2C1_SDA:                   GPIO 14
-I2C1_SCL:                   GPIO 15
+I2C1_SDA:                   GPIO 17
+I2C1_SCL:                   GPIO 18
 
 
 ![ESP32-S3 Pins](<Esp32-s3_datasheet_en Page 071.jpg>)
