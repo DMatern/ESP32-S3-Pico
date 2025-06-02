@@ -35,6 +35,8 @@ Onboard DC-DC chip MP28164, high efficiency DC-DC buck-boost chip with load curr
 Rich peripheral interfaces, including full-speed USB OTG, SPI, I2C, UART, ADC, PWM and DVP (8-bit ~ 16-bit camera interface), LCD interfaces (8-bit ~ 16-bit parallel RGB, I8080, MOTO6800), etc. to achieve various functions flexibly
 4-inch IPS screen with a 320x320 resolution SPI Interface
 
+# Board IO:
+
 > SPI0 Pin Assignments for FLASH W25Q128JVSIQ:
 
 SPICS0 (Chip Select):       GPIO29
@@ -71,23 +73,50 @@ GPIO20  USB D+
 
 GPIO01 - GPOI20
 
-# PicoCalc IO
+# PicoCalc IO for ESP32-S3-Pico
 
-SPI0_CS  (Chip Select)      GPIO5
-SPI0_CLK  (Clock)           GPIO4
-SPI0_
+> UART Serial 0
 
-> SPI0 Pin Assignments for FLASH W25Q128JVSIQ:
+TX: GPIO 2
+RX: GPIO 3
 
-SPI0_CS (Chip Select):      GPIO 20
-SPI0_CLK (Clock):           GPIO 21
-SPID (Master Out Slave In): GPIO32
-SPIQ (Master In Slave Out): GPIO31
-SPICLK (Clock):             GPIO30
-SPIWP (Write Protect):      GPIO28
-SPIHD (Hold):               GPIO27
+> FLASH ESP-PSRAM64H:
 
+RAM_CS (Chip Select):       GPIO 40
+RAM_CLK (Clock):            GPIO 41
+RAM_TX (MOSI):              GPIO 4
+RAM_RX (MISO):              GPIO 5
+SPI0_IO2 ():                GPIO 43
+SPIQ_IO3 ():                GPIO 44
 
+> TF Card Slot:
+
+SPI0_CS (Chip Select):      GPIO 37
+SPI0_CLK (Clock):           GPIO 38
+SPI0_TX (MOSI):             GPIO 39
+SPI0_RX (MISO):             GPIO 36
+
+SD_DET (Card Detect):       GPIO 42
+
+> TFT Display:
+
+SPI1_CS:                    GPIO 13
+SPI1_CLK:                   GPIO 10
+SPI1_TX (MOSI):             GPIO 11
+SPI1_RX (MISO):             GPIO 12
+
+LCD_DC () :                 GPIO 34
+LCD_RST (Reset):            GPIO 35
+
+> Audio Out (NC7WZ16):
+
+PWM_L:                      GPIO 6 
+PWM_R:                      GPIO 7
+
+> Keyboard I2C (STM32):
+
+I2C1_SDA:                   GPIO 14
+I2C1_SCL:                   GPIO 15
 
 
 ![ESP32-S3 Pins](<Esp32-s3_datasheet_en Page 071.jpg>)
