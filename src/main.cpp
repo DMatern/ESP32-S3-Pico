@@ -30,7 +30,7 @@ const byte sysFlag_WiFiConnected = 7;       // sysFlags bit 7:  0 = inactive	1 =
 #include <GPIO.h>  // GPIO Library
 
 // Initialize the display
-U8G2_SSD1306_64X32_1F_2W_SW_I2C u8g2(U8G2_R0, /* clock=*/SCL, /* data=*/SDA, /* reset=*/U8X8_PIN_NONE);
+U8G2_SSD1306_64X32_1F_2_SW_I2C u8g2(U8G2_R0, /* clock=*/40, /* data=*/39, /* reset=*/U8X8_PIN_NONE);
 
 // ============================================================================
 // Function Declarations
@@ -43,7 +43,13 @@ void setup() {
 
   Serial.begin(115200);
 
-  u8g2
+  u8g2.begin(); // Initialize the display
+
+  u8g2.clearBuffer();   // Clear the internal memory
+  u8g2.setFont(u8g2_font_ncenB08_tr);    // Choose a suitable font
+  u8g2.drawStr(0, 10, "Hello, World!"); // Write something to the display
+  u8g2.sendBuffer();  // Transfer internal memory to the display
+
   delay(1000); // Allow time for Serial Monitor to open
 
   // Wire.begin(SDA, SCL); // Initialize I2C communication
@@ -75,6 +81,8 @@ void setup() {
 void loop() {
 
   updateGPIO(); // Update GPIO state
+
+  cycleRGB();
 
 }
 
