@@ -9,11 +9,11 @@
 // ====================================
 // WiFI Settings
 
-// const char * ssidHome = "Matern";       // your network SSID (name)
-// const char * passHome = "yourwelcome";  // your network password
+// const char * ssidHome = "";       // your network SSID (name)
+// const char * passHome = "";  // your network password
 
-const char * ssidHome = "MPEGuest";       // your network SSID (name)
-const char * passHome = "wirelessmpe";  // your network password
+const char * ssidHome = "";       // your network SSID (name)
+const char * passHome = "";  // your network password
 
 int WiFiRetryCount = 0;
 int WiFiretryMax = 20;
