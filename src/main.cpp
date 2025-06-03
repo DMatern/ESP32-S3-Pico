@@ -22,10 +22,15 @@ const byte sysFlag_WiFiConnected = 7;       // sysFlags bit 7:  0 = inactive	1 =
 // ====================================
 // Include Files
 
-#include <fastled.h>  //Onboard RGB LED Driver
+#include <U8g2lib.h>
+
+// #include <fastled.h>  //Onboard RGB LED Driver
 #include <comm.h>  //Communication Library
-#include <flash.h> // Flash Memory Library
+// #include <flash.h> // Flash Memory Library
 #include <GPIO.h>  // GPIO Library
+
+// Initialize the display
+U8G2_SSD1306_64X32_1F_2W_SW_I2C u8g2(U8G2_R0, /* clock=*/SCL, /* data=*/SDA, /* reset=*/U8X8_PIN_NONE);
 
 // ============================================================================
 // Function Declarations
@@ -37,6 +42,8 @@ const byte sysFlag_WiFiConnected = 7;       // sysFlags bit 7:  0 = inactive	1 =
 void setup() {
 
   Serial.begin(115200);
+
+  u8g2
   delay(1000); // Allow time for Serial Monitor to open
 
   // Wire.begin(SDA, SCL); // Initialize I2C communication
