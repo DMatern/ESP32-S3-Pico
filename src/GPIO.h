@@ -5,8 +5,10 @@
 // Include Files
 
 #include <Arduino.h>
+#include <SerialFlash.h>
+#include <Wire.h>
 #include <SPI.h>
-#include <wire.h>
+// #include <driver/spi_common.h> // Ensure VSPI_HOST is defined for ESP32
 
 // ====================================
 // RGB NanoPixel LED Driver
@@ -41,6 +43,11 @@ CRGB leds[NUM_LEDS];
 #define WP_PIN 28   // SPIWP
 #define HD_PIN 27   // SPIHD
 
+SPIClass flashSPI(FSPI); // Use FSPI for ESP32-S3, which has only FSPI and optionally HSPI
+
+// If you want to specify pins directly, you can do so when calling begin():
+// flashSPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
+
 // ============================================================================
 // Setup
 // ============================================================================
@@ -59,49 +66,21 @@ void setupGPIO() {
     Serial.println("GPIO setup complete.");
 }
 
-bool initializeFlash()
-{
-  digitalWrite(CS_PIN, LOW);
-  SPI.transfer(0xAB); // Release from power-down / Device ID
-  digitalWrite(CS_PIN, HIGH);
-  delay(100);
-
-  // Check if the flash chip is responding
-  digitalWrite(CS_PIN, LOW);
-  SPI.transfer(0x90); // Manufacturer/Device ID
-  SPI.transfer(0x00);
-  SPI.transfer(0x00);
-  SPI.transfer(0x00);
-  uint8_t manufacturerID = SPI.transfer(0x00);
-  uint8_t deviceID = SPI.transfer(0x00);
-  digitalWrite(CS_PIN, HIGH);
-
-  return (manufacturerID == 0xEF && deviceID == 0x17); // Check against known IDs for W25Q128
-}
-
 void setupFlash()
 {
-
-  SPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
+  // Initialize SPI with custom pins
+  flashSPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
   pinMode(CS_PIN, OUTPUT);
   digitalWrite(CS_PIN, HIGH);
 
-  // Initialize the flash chip
-  if (!initializeFlash())
+  // Initialize SerialFlash library
+  if (!SerialFlash.begin(CS_PIN, &flashSPI))
   {
-    Serial.println("Failed to initialize flash chip");
+    Serial.println("Failed to initialize SerialFlash chip");
     while (1)
       ;
   }
-  Serial.println("Flash chip initialized successfully");
-
-  // // Example: Write data to flash
-  // writeDataToFlash(0x000000, "Hello, Flash!");
-
-  // // Example: Read data from flash
-  // char buffer[20];
-  // readDataFromFlash(0x000000, buffer, 20);
-  // Serial.println(buffer);
+  Serial.println("SerialFlash chip initialized successfully");
 }
 
 // ============================================================================

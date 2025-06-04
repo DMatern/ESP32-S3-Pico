@@ -62,10 +62,10 @@ void setup() {
   setupWiFi();
 
   // Set up communication protocols
-  setupComms();
+  // setupComms();
 
   // Initialize Flash Memory
-  setupFlash();
+  // setupFlash();
 
   // Initialize GPIO pins
   setupGPIO();

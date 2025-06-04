@@ -12,8 +12,8 @@
 // const char * ssidHome = "";       // your network SSID (name)
 // const char * passHome = "";  // your network password
 
-const char * ssidHome = "";       // your network SSID (name)
-const char * passHome = "";  // your network password
+const char * ssidHome = "MPEGuest";       // your network SSID (name)
+const char * passHome = "wirelessmpe";  // your network password
 
 int WiFiRetryCount = 0;
 int WiFiretryMax = 20;
@@ -98,7 +98,7 @@ void setupWiFi() {
 
 void setupComms() {
 
-  Wire.begin(SDA, SCL);
+  // Wire.begin(SDA, SCL);
 
   // addd SPI bus for external devices? not internal SPI bus with flash
 
