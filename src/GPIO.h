@@ -5,10 +5,9 @@
 // Include Files
 
 #include <Arduino.h>
-#include <SerialFlash.h>
 #include <Wire.h>
 #include <SPI.h>
-// #include <driver/spi_common.h> // Ensure VSPI_HOST is defined for ESP32
+#include <SPIMemory.h> // Add SPIMemory library
 
 // ====================================
 // RGB NanoPixel LED Driver
@@ -45,8 +44,8 @@ CRGB leds[NUM_LEDS];
 
 SPIClass flashSPI(FSPI); // Use FSPI for ESP32-S3, which has only FSPI and optionally HSPI
 
-// If you want to specify pins directly, you can do so when calling begin():
-// flashSPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
+// Create SPIFlash object using custom SPI bus and CS pin
+SPIFlash flash(&flashSPI, CS_PIN);
 
 // ============================================================================
 // Setup
@@ -68,19 +67,22 @@ void setupGPIO() {
 
 void setupFlash()
 {
-  // Initialize SPI with custom pins
-  flashSPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
-  pinMode(CS_PIN, OUTPUT);
-  digitalWrite(CS_PIN, HIGH);
+    // Initialize SPI with custom pins
+    flashSPI.begin(CLK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
 
-  // Initialize SerialFlash library
-  if (!SerialFlash.begin(CS_PIN, &flashSPI))
-  {
-    Serial.println("Failed to initialize SerialFlash chip");
-    while (1)
-      ;
-  }
-  Serial.println("SerialFlash chip initialized successfully");
+    if (!flash.begin()) {
+        Serial.println("Failed to initialize SPI Flash chip");
+        while (1);
+    }
+    Serial.print("Flash JEDEC ID: 0x");
+    Serial.println(flash.getJEDECID(), HEX);
+
+    if (!flash.supported()) {
+        Serial.println("Flash chip not supported by SPIMemory library!");
+        while (1);
+    }
+
+    Serial.println("SPI Flash chip initialized successfully");
 }
 
 // ============================================================================
@@ -93,7 +95,7 @@ void updateGPIO() {
 }
 
 // ====================================
-// LED unctions
+// LED functions
 // ====================================
 
 void cycleRGB() {
@@ -117,41 +119,34 @@ void cycleRGB() {
 }
 
 // ====================================
-// FLASH unctions
+// FLASH functions using SPIMemory
 // ====================================
 
-void writeDataToFlash(uint32_t address, const char *data)
+bool writeDataToFlash(uint32_t address, const char *data, size_t length)
 {
-  digitalWrite(CS_PIN, LOW);
-  SPI.transfer(0x06); // Write Enable
-  digitalWrite(CS_PIN, HIGH);
-  delay(10);
+    // Erase sector before writing (W25Q128 sector size is 4096 bytes)
+    if (!flash.eraseSector(address)) {
+        Serial.println("Failed to erase sector!");
+        return false;
+    }
+    delay(10);
 
-  digitalWrite(CS_PIN, LOW);
-  SPI.transfer(0x02); // Page Program
-  SPI.transfer((address >> 16) & 0xFF);
-  SPI.transfer((address >> 8) & 0xFF);
-  SPI.transfer(address & 0xFF);
-  for (size_t i = 0; i < strlen(data); i++)
-  {
-    SPI.transfer(data[i]);
-  }
-  digitalWrite(CS_PIN, HIGH);
-  delay(10);
+    // Write data
+    if (!flash.writeByteArray(address, (uint8_t*)data, length)) {
+        Serial.println("Failed to write data!");
+        return false;
+    }
+    return true;
 }
 
-void readDataFromFlash(uint32_t address, char *buffer, size_t length)
+bool readDataFromFlash(uint32_t address, char *buffer, size_t length)
 {
-  digitalWrite(CS_PIN, LOW);
-  SPI.transfer(0x03); // Read Data
-  SPI.transfer((address >> 16) & 0xFF);
-  SPI.transfer((address >> 8) & 0xFF);
-  SPI.transfer(address & 0xFF);
-  for (size_t i = 0; i < length; i++)
-  {
-    buffer[i] = SPI.transfer(0x00);
-  }
-  digitalWrite(CS_PIN, HIGH);
+    if (!flash.readByteArray(address, (uint8_t*)buffer, length)) {
+        Serial.println("Failed to read data!");
+        return false;
+    }
+    buffer[length] = '\0'; // Null-terminate if reading string data
+    return true;
 }
 
 #endif // GPIO_H

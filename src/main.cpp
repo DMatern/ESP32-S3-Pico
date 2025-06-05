@@ -46,8 +46,10 @@ void setup() {
   u8g2.begin(); // Initialize the display
 
   u8g2.clearBuffer();   // Clear the internal memory
-  u8g2.setFont(u8g2_font_ncenB08_tr);    // Choose a suitable font
-  u8g2.drawStr(0, 10, "Hello, World!"); // Write something to the display
+  // u8g2.setFont(u8g2_font_5x7_tr);
+  u8g2.setFont(u8g2_font_7x14_tr);
+  u8g2.drawStr(0, 16, "Hello,"); // Write something to the display
+  u8g2.drawStr(0, 32, "World!"); // Write something to the display
   u8g2.sendBuffer();  // Transfer internal memory to the display
 
   delay(1000); // Allow time for Serial Monitor to open
@@ -65,7 +67,7 @@ void setup() {
   // setupComms();
 
   // Initialize Flash Memory
-  // setupFlash();
+  setupFlash();
 
   // Initialize GPIO pins
   setupGPIO();
