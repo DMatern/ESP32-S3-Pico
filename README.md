@@ -1,11 +1,12 @@
 # ESP32-S3-Pico
 Base configuration to initialize and setup all hardware and required llib's and be ready for program code.
 
+Flash and PSRAM configuration: https://community.platformio.org/t/esp32-s3-devkitc-1-n32r8v-configuration-assistance/31967
+
 # To Do List:
 
 - Add and Test Libraries for the following hardware:
 
-Onboard Flash
 Onboard USB Host / Device
 
 # Library Infoamtion
