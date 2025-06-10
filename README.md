@@ -12,8 +12,8 @@ Flash and PSRAM configuration: https://community.platformio.org/t/esp32-s3-devki
 > General
 
 	NeoPixel      = FastLED
-	Flash Memory  = SPIMemory / Marzogh
-	WiFi          = WiFi.h   (arduino core)
+	WiFi          = WiFi.h   (arduino ESP32 core)
+	BlueTooth      = BLE (Arduino ESP COre) https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleServer.cpp
 
 > PicoCalc Specific
 
@@ -21,6 +21,7 @@ Flash and PSRAM configuration: https://community.platformio.org/t/esp32-s3-devki
 	Touchscreen   = XPT2046 / PaulStoffergen
 	Keyvoard      = arduino_picocalc_kbd
 	TF Card       = SD.h    (arduino core)
+	Flash Memory  = SPIMemory / Marzogh
 
 # Board Information:
 
@@ -38,8 +39,8 @@ Flash and PSRAM configuration: https://community.platformio.org/t/esp32-s3-devki
 
 > USB UART Serial 0 (Host):
 
-	TX  (U0TXD):                  GPIO 43
-	RX: (U0RXD):                  GPIO 44
+	TX  (U0TXD):                 GPIO 43
+	RX: (U0RXD):                 GPIO 44
 
 > USB UART Serial (Device):
 
