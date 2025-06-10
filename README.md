@@ -13,16 +13,16 @@ Onboard USB Host / Device
 
 > General
 
-NeoPixel      = FastLED
-Flash Memory  = SPIMemory / Marzogh
+NeoPixel      = FastLED /n
+Flash Memory  = SPIMemory / Marzogh /n
 WiFi          = WiFi.h   (arduino core)
 
 > PicoCalc Specific
 
-Display       = TFT_eSPI / Bodmer
-Touchscreen   = XPT2046 / PaulStoffergen
-Keyvoard      = arduino_picocalc_kbd
-TF Card       = SD.h    (arduino core)
+	Display       = TFT_eSPI / Bodmer
+	Touchscreen   = XPT2046 / PaulStoffergen
+	Keyvoard      = arduino_picocalc_kbd
+	TF Card       = SD.h    (arduino core)
 
 # Board Information:
 
